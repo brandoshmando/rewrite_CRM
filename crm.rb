@@ -96,6 +96,7 @@ class CRM
 			contact_selection << results[selection - 1]
 			contact_card(contact_selection)
 		end
+		main_menu
 	end
 
 	def print_attribute_list
@@ -119,7 +120,7 @@ class CRM
 	def list_results(array)
 		array.each_with_index do |match, index|
 			spacer
-				puts "[#{index + 1}]|First Name: #{match.first_name} | Last Name: #{match.last_name} | Email Address: #{match.email} | Notes: #{match.note} | ID: #{match.id}"
+				puts "[#{index + 1}]  |First Name: #{match.first_name} | Last Name: #{match.last_name} | Email Address: #{match.email} | Notes: #{match.note} | ID: #{match.id}"
 			spacer
 		end
 	end
