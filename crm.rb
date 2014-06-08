@@ -161,7 +161,7 @@ class CRM
 			empty_error
 		else
 			array.each_with_index do |attribute, index|
-				puts "[#{index}]  | #{attribute}"
+				puts "[#{index}]  | #{attribute}|"
 			end
 			main_menu
 		end
