@@ -6,6 +6,7 @@ class CRM
 
 	def initialize(name)
 		@name = name
+		@attributes = ["First Name", "Last Name", "Email", "Note"]
 		puts "Welcome to #{name}!"
 		main_menu
 	end
@@ -51,9 +52,24 @@ class CRM
 	end
 
 	def add_contact
-		
-	end 
+		prompt(@attributes[0])
+		first_name = gets.chomp
 
+		prompt(@attributes[1])
+		last_name = gets.chomp
+
+		prompt(@attributes[2]) 
+		email = gets.chomp
+
+		prompt(@attributes[3])
+		note = gets.chomp
+		Contact.new(first_name, last_name, email, note)
+	end
+
+	def prompt(attribute)
+	spacer
+	puts "Please enter the #{attribute}:"
+	end
 end
 
 CRM.new("Bitmaker")
