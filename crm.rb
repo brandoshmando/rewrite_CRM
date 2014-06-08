@@ -8,6 +8,10 @@ class CRM
 		@name = name
 		@attributes = ["First Name", "Last Name", "Email", "Note", "ID"]
 		@rolodex = Rolodex.new
+		@rolodex.add(Contact.new("Brandon","Craft", "Email", "Note"))
+		@rolodex.add(Contact.new("Brandon","Craft", "Email", "Note"))
+		@rolodex.add(Contact.new("Rob","Ford", "loves_crack77@hotmail.com", "He crayyyy"))
+		@rolodex.add(Contact.new("Tester","McGee", "Email", "Note"))
 		puts "Welcome to #{name}!"
 		main_menu
 	end
@@ -40,7 +44,7 @@ class CRM
 		when 1 then add_contact
 		when 2 then modify_contact
 		when 3 then display_all
-		when 4 then search_for_contact
+		when 4 then search_contacts
 		when 5 then display_attribute
 		when 6 then delete_contact
 		when 7 
@@ -83,20 +87,42 @@ class CRM
 			"Your search returned no results. Press enter to return to the Main Menu"
 			gets.chomp
 		elsif results.size == 1
-			results.contact_card
-			hold
+			contact_card(results)
 		else
-			results.list_results
+			list_results(results)
 			puts "Please select the contact you would like to display:"
-			results.contact_card
-			hold
+			selection = gets.chomp.to_i
+			contact_selection = []
+			contact_selection << results[selection - 1]
+			contact_card(contact_selection)
 		end
+	end
+
+	def print_attribute_list
+		spacer
+		@attributes.each_with_index { |attribute, index| puts "[#{index + 1}] #{attribute}"}
+		spacer
 	end
 
 	def contact_card(array)
 		array.each do |contact|
+			spacer
+				puts "#{@attributes[0]}: #{contact.first_name}"
+				puts "#{@attributes[1]}: #{contact.last_name}"
+				puts "#{@attributes[2]}: #{contact.email}"
+				puts "#{@attributes[3]}: #{contact.note}"
+				puts "#{@attributes[4]}: #{contact.id}"
+			spacer
+		end
 	end
 
+	def list_results(array)
+		array.each_with_index do |match, index|
+			spacer
+				puts "[#{index + 1}]|First Name: #{match.first_name} | Last Name: #{match.last_name} | Email Address: #{match.email} | Notes: #{match.note} | ID: #{match.id}"
+			spacer
+		end
+	end
 end
 
 CRM.new("Bitmaker")
