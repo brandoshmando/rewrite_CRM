@@ -90,6 +90,7 @@ class CRM
 			gets.chomp
 		elsif results.size == 1
 			contact_card(results)
+			return results[0]
 		else
 			list_results(results)
 			puts "Please select the contact you would like to display:"
@@ -97,6 +98,7 @@ class CRM
 			contact_selection = []
 			contact_selection << results[selection - 1]
 			contact_card(contact_selection)
+			return contact_selection[0]
 		end
 		main_menu
 	end
@@ -131,10 +133,11 @@ class CRM
 		contact = search_contacts
 		print_attribute_list
 		puts "Please select the attribute you would like to modify"
-		attribute_index = gets.chomp
+		attribute_index = gets.chomp.to_i
 		puts "Please enter the modified attribute:"
 		new_value = gets.chomp
 		@rolodex.modify(contact, attribute_index, new_value)
+		main_menu
 	end
 
 	def display_all
