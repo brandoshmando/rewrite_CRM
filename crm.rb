@@ -180,7 +180,7 @@ class CRM
 	end
 
 	def attribute_format(array)
-		if array.empty?
+		if array.empty?			
 			empty_error
 		else
 			array.each_with_index do |attribute, index|
@@ -200,8 +200,6 @@ class CRM
 		puts "Are you sure you want to #{action} this contact?:"
 		selection = gets.downcase.chomp
 		selection == "yes" ? return : main_menu
-
-		end
 	end
 
 	def confirmation(action)
