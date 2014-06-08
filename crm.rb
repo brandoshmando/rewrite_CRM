@@ -7,13 +7,14 @@ class CRM
 	def initialize(name)
 		@name = name
 		@attributes = ["First Name", "Last Name", "Email", "Note"]
+		@rolodex = Rolodex.new
 		puts "Welcome to #{name}!"
 		main_menu
 	end
 
 	def main_menu
-		puts "Please enter a selection from the list of options:"
 		print_main_menu
+		puts "Please enter a selection from the list of options:"
 		selection = gets.chomp.to_i
 		option_call(selection)
 	end
@@ -63,7 +64,7 @@ class CRM
 
 		prompt(@attributes[3])
 		note = gets.chomp
-		Contact.new(first_name, last_name, email, note)
+		@rolodex.add(Contact.new(first_name, last_name, email, note))
 	end
 
 	def prompt(attribute)
