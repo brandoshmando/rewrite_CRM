@@ -83,8 +83,10 @@ class CRM
 		prompt(@attributes[attribute_index -1])
 		search_term = gets.chomp
 		results = @rolodex.search(attribute_index, search_term)
-		if results.empty?
-			"Your search returned no results. Press enter to return to the Main Menu"
+		if @rolodex.contacts.empty?
+			empty_error
+		elsif results.empty?
+			puts "Your search returned no results. Press enter to return to the Main Menu"
 			gets.chomp
 		elsif results.size == 1
 			contact_card(results)
@@ -123,6 +125,26 @@ class CRM
 				puts "[#{index + 1}]  |First Name: #{match.first_name} | Last Name: #{match.last_name} | Email Address: #{match.email} | Notes: #{match.note} | ID: #{match.id}"
 			spacer
 		end
+	end
+
+	def modify_contact
+		contact = search_contacts
+		print_attribute_list
+		puts "Please select the attribute you would like to modify"
+		attribute_index = gets.chomp
+		puts "Please enter the modified attribute:"
+		new_value = gets.chomp
+		@rolodex.modify(contact, attribute_index, new_value)
+	end
+
+	def display_all
+		results = @rolodex.puke
+		results.empty? ? empty_error : contact_card(results)
+	end
+
+	def empty_error
+		puts "#{@name} is currently empty. Please add a contact and try again!"
+		main_menu
 	end
 end
 
