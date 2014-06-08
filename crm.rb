@@ -49,6 +49,11 @@ class CRM
 			main_menu
 		end
 	end
+
+	def add_contact
+		
+	end 
+
 end
 
 CRM.new("Bitmaker")
