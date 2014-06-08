@@ -33,5 +33,9 @@ class Rolodex
 		@contacts.each {|contact| results << contact.public_send(selection)}
 		results 
 	end
+
+	def delete(contact)
+		@contacts.delete(contact)
+	end
 		
 end

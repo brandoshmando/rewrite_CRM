@@ -3,6 +3,11 @@ class CRM
 	
 	require_relative 'contact.rb'
 	require_relative 'rolodex.rb'
+	
+	def self.run(name)
+		crm = new(name)
+		crm.main_menu
+	end
 
 	def initialize(name)
 		@name = name
@@ -17,6 +22,7 @@ class CRM
 	end
 
 	def main_menu
+		clear_term
 		print_main_menu
 		puts "Please enter a selection from the list of options:"
 		selection = gets.chomp.to_i
@@ -57,6 +63,7 @@ class CRM
 	end
 
 	def add_contact
+		clear_term
 		prompt(@attributes[0])
 		first_name = gets.chomp
 
@@ -69,6 +76,8 @@ class CRM
 		prompt(@attributes[3])
 		note = gets.chomp
 		@rolodex.add(Contact.new(first_name, last_name, email, note))
+		confirmation("added")
+		main_menu
 	end
 
 	def prompt(attribute)
@@ -77,6 +86,7 @@ class CRM
 	end
 
 	def search_contacts
+		clear_term
 		print_attribute_list
 		puts "Please select which attribute you would like to search by:"
 		attribute_index = gets.chomp.to_i
@@ -93,7 +103,7 @@ class CRM
 			return results[0]
 		else
 			list_results(results)
-			puts "Please select the contact you would like to display:"
+			puts "Please select the contact:"
 			selection = gets.chomp.to_i
 			contact_selection = []
 			contact_selection << results[selection - 1]
@@ -122,6 +132,7 @@ class CRM
 	end
 
 	def list_results(array)
+		clear_term
 		array.each_with_index do |match, index|
 			spacer
 				puts "[#{index + 1}]  |First Name: #{match.first_name} | Last Name: #{match.last_name} | Email Address: #{match.email} | Notes: #{match.note} | ID: #{match.id}"
@@ -130,19 +141,23 @@ class CRM
 	end
 
 	def modify_contact
+		clear_term
 		contact = search_contacts
 		print_attribute_list
 		puts "Please select the attribute you would like to modify"
 		attribute_index = gets.chomp.to_i
 		puts "Please enter the modified attribute:"
 		new_value = gets.chomp
+		filter("modify")
 		@rolodex.modify(contact, attribute_index, new_value)
+		confirmation("modified")
 		main_menu
 	end
 
 	def display_all
 		results = @rolodex.puke
 		results.empty? ? empty_error : contact_card(results)
+		hold
 		main_menu
 	end
 
@@ -152,11 +167,16 @@ class CRM
 	end
 
 	def display_attributes
+		clear_term
 		print_attribute_list
 		puts "Select the attribute would you like to display:"
 		attribute_index = gets.chomp.to_i
 		results = @rolodex.puke_attributes(attribute_index)
+		spacer
 		attribute_format(results)
+		spacer
+		hold
+		main_menu
 	end
 
 	def attribute_format(array)
@@ -166,9 +186,40 @@ class CRM
 			array.each_with_index do |attribute, index|
 				puts "[#{index}]  | #{attribute}|"
 			end
-			main_menu
 		end
+	end
+
+	def delete_contact
+		contact = search_contacts
+		filter("delete")
+		@rolodex.delete(contact)
+		confirmation("deleted")
+	end
+
+	def filter(action)
+		puts "Are you sure you want to #{action} this contact?:"
+		selection = gets.downcase.chomp
+		selection == "yes" ? return : main_menu
+
+		end
+	end
+
+	def confirmation(action)
+		spacer
+		puts "You have successfully #{action} this contact. Press enter for Main Menu"
+		spacer
+		gets.chomp
+	end
+
+	def clear_term
+		puts "\e[H\e[2J"
+	end
+
+	def hold
+		puts "Press enter for Main Menu"
+		spacer
+		gets.chomp
 	end
 end
 
-CRM.new("Bitmaker")
+CRM.run("Rolodex 2000")
