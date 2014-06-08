@@ -45,7 +45,7 @@ class CRM
 		when 2 then modify_contact
 		when 3 then display_all
 		when 4 then search_contacts
-		when 5 then display_attribute
+		when 5 then display_attributes
 		when 6 then delete_contact
 		when 7 
 			puts "----------Goodbye----------"
@@ -140,11 +140,31 @@ class CRM
 	def display_all
 		results = @rolodex.puke
 		results.empty? ? empty_error : contact_card(results)
+		main_menu
 	end
 
 	def empty_error
 		puts "#{@name} is currently empty. Please add a contact and try again!"
 		main_menu
+	end
+
+	def display_attributes
+		print_attribute_list
+		puts "Select the attribute would you like to display:"
+		attribute_index = gets.chomp.to_i
+		results = @rolodex.puke_attributes(attribute_index)
+		attribute_format(results)
+	end
+
+	def attribute_format(array)
+		if array.empty?
+			empty_error
+		else
+			array.each_with_index do |attribute, index|
+				puts "[#{index}]  | #{attribute}"
+			end
+			main_menu
+		end
 	end
 end
 
