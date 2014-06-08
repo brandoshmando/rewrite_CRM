@@ -6,7 +6,7 @@ class CRM
 
 	def initialize(name)
 		@name = name
-		@attributes = ["First Name", "Last Name", "Email", "Note"]
+		@attributes = ["First Name", "Last Name", "Email", "Note", "ID"]
 		@rolodex = Rolodex.new
 		puts "Welcome to #{name}!"
 		main_menu
@@ -71,6 +71,32 @@ class CRM
 	spacer
 	puts "Please enter the #{attribute}:"
 	end
+
+	def search_contacts
+		print_attribute_list
+		puts "Please select which attribute you would like to search by:"
+		attribute_index = gets.chomp.to_i
+		prompt(@attributes[attribute_index -1])
+		search_term = gets.chomp
+		results = @rolodex.search(attribute_index, search_term)
+		if results.empty?
+			"Your search returned no results. Press enter to return to the Main Menu"
+			gets.chomp
+		elsif results.size == 1
+			results.contact_card
+			hold
+		else
+			results.list_results
+			puts "Please select the contact you would like to display:"
+			results.contact_card
+			hold
+		end
+	end
+
+	def contact_card(array)
+		array.each do |contact|
+	end
+
 end
 
 CRM.new("Bitmaker")
