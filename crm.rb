@@ -35,7 +35,7 @@ class CRM
 		puts "[2] Modify a contact"
 		puts "[3] Display all contacts"
 		puts "[4] Search contacts"
-		puts "[5] Diplay all attributes"
+		puts "[5] Display all attributes"
 		puts "[6] Delete a contact"
 		puts "[7] Exit"
 		spacer
@@ -100,6 +100,7 @@ class CRM
 			gets.chomp
 		elsif results.size == 1
 			contact_card(results)
+			hold("advance")
 			return results[0]
 		else
 			list_results(results)
@@ -108,6 +109,7 @@ class CRM
 			contact_selection = []
 			contact_selection << results[selection - 1]
 			contact_card(contact_selection)
+			hold("advance")
 			return contact_selection[0]
 		end
 		main_menu
@@ -213,8 +215,8 @@ class CRM
 		puts "\e[H\e[2J"
 	end
 
-	def hold
-		puts "Press enter for Main Menu"
+	def hold(str="Main Menu")
+		puts "Press enter for #{str}"
 		spacer
 		gets.chomp
 	end
